@@ -4,10 +4,11 @@
 
 #define MAX_STRING_SIZE 1000
 
-size_t levensteinDistance( char* s1, size_t sl1, char *s2, size_t sl2);
+int levensteinDistance( char* s1, int i, char *s2, int j);
 
 int inputData( char* s1, char* s2, int* err );
-size_t min(int count, ...);
+int min(int count, ...);
+int match(char c, char d);
 
 
 
@@ -18,42 +19,41 @@ int main() {
         char s2[MAX_STRING_SIZE] = ""; 
         inputData(s1, s2, &err);
 
-        size_t sl1 = strlen(s1);
-        size_t sl2 = strlen(s2);
-        size_t len = levensteinDistance(s1, sl1, s2, sl2);
+        int i = strlen(s1);
+        int j = strlen(s2);
+        int len = levensteinDistance(s1, i, s2, j);
 
         printf("Length is : %d\n", len);
 }
 
 
 
-size_t levensteinDistance( char* s1, size_t sl1, char* s2, size_t sl2 )
+int levensteinDistance( char* s1, int i, char* s2, int j )
 {
-    if(!sl1) 
-        return sl2;
-    if(!sl2)
-        return sl1;
-    size_t cost = 1;
-    if(s1[sl1-1] == s2[sl2-1])
-        cost = 0;
+    if(i == 0) return j;
+    if(j == 0) return i;
 
-    size_t a = levensteinDistance(s1, sl1-1, s2, sl2);
-    size_t b = levensteinDistance(s1, sl1, s2, sl2-1);
-    size_t c = levensteinDistance(s1, sl1-1, s2, sl2-1) + cost;
+    int a = levensteinDistance(s1, i-1, s2, j) + 1;
+    int b = levensteinDistance(s1, i, s2, j-1) + 1;
+    int c = levensteinDistance(s1, i-1, s2, j-1) + match(s1[i], s2[j]);
 
-    size_t result = min(a, b, c);
-
-    return result;
+    return min(3, a, b, c);
 }
 
 
-size_t min(int count, ...) {
+int match(char c, char d)
+{
+    if(c == d) return 0;
+    else return 1;
+}
+
+int min(int count, ...) {
     va_list ap;
 
     va_start(ap, count);
-    int min = va_arg(ap, size_t);
+    int min = va_arg(ap, int);
     for(int i = 0; i < count-1; i++) {
-        int x = va_arg(ap, size_t);
+        int x = va_arg(ap, int);
         if(x < min)
             min = x;
     }
