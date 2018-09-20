@@ -1,3 +1,69 @@
 \chapter{ Констукторский раздел}
 \label{cha:design}
 
+Ниже представлены схемы алгоритмов -- Дамерау - Левенштейна и двух реализаций Левенштейна(рекурсивный и обычный).
+
+\section{ Разработка алгоритмов}
+\subsection{ Расстояние Левенштейна(обычный)}
+
+\begin{tikzpicture} [
+    auto,
+    decision1/.style = { diamond, draw=black, thick, 
+                        text width=5em, text badly centered,
+                        inner sep=1pt },
+    block/.style    = { rectangle, draw=black, thick, 
+                        text width=10em, text centered,
+                        minimum height=2em },
+    line/.style     = { draw, thick, ->, shorten >=2pt },
+    terminator/.style = { ellipse, thick, draw=black, text badly centered },
+    startstop/.style = {rectangle, rounded corners, minimum width=3cm, 
+                        minimum height=1cm,text centered, draw=black, 
+                        fill=red!30},
+    io/.style       = { trapezium, trapezium left angle=70, 
+                        trapezium right angle=110, minimum width=3cm, 
+                        minimum height=1cm, text centered, draw=black, 
+                        fill=blue!30},
+    process/.style  = { rectangle, minimum width=3cm, minimum height=1cm, 
+                        text centered, draw=black, fill=orange!30},
+    decision/.style = { diamond, minimum width=3cm, minimum height=1cm, 
+                        text centered, draw=black, fill=green!30},
+  ]
+  % Define nodes in a matrix
+  \matrix [column sep=5mm, row sep=10mm] {
+                    & \node [startstop] (start) {Начало};            & \\
+                    & \node [process] (doa) {$\begin{tabular}{c}
+                                            i=len(s), \\ 
+                                            j=len(t), \\
+                                            matrix[i][j], \\
+                                            cost=1
+                                            \end{tabular}$};   & \\
+  };
+  % connect all nodes defined above
+  \begin{scope} [every path/.style=line]
+    \path (start)        --    (doa);
+  \end{scope}
+  %
+  % legend for subprocedures
+  \node (leyend) at (7.5, 5){
+    \begin{tabular}{>{\sffamily}l@{: }l}
+      \multicolumn{2}{c}{\textbf{subprocedures}} \\
+      DoAE & direction of arrival estimation     \\
+      UID  & user identification                 \\
+      DoAT & DoA tracking                        \\
+      BF   & beam forming                        \\
+      SF   & spatial filtering
+    \end{tabular}
+  };
+  %
+  % legend for input and output variables
+  \node (leyend) at (7, 0){
+    \begin{tabular}{l@{: }l}
+      \multicolumn{2}{c}{\textbf{variables}}              \\
+      DoA                       & direction of arrival    \\
+      $\mathbf{i}$              & identification sequence \\
+      $\mathbf{X},\,\mathbf{x}$ & signal model            \\
+      DoA$_{\mathrm{T}}$        & DoAs up to date         \\
+      $\hat{x}(t)$              & fitered signal
+      \end{tabular}
+  };
+\end{tikzpicture}
