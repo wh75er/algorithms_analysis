@@ -54,7 +54,7 @@ int levensteinDistance( char* s1, char* s2,
                         (*matrix)[i-1][j-1]+cost );
             int l2 = l1;
             if(i>=2 && j>=2)
-                if(s1[i-1] == s2[j-2])
+                if(s1[i-1] == s2[j-2] && s2[j-1] == s1[i-2])
                     l2 = (*matrix)[i-2][j-2]+1;
             (*matrix)[i][j] = min(2, l1, l2);
         }
