@@ -33,11 +33,9 @@ int levensteinDistance( char* s1, int i, char* s2, int j )
     if(i == 0) return j;
     if(j == 0) return i;
 
-    int a = levensteinDistance(s1, i-1, s2, j) + 1;
-    int b = levensteinDistance(s1, i, s2, j-1) + 1;
-    int c = levensteinDistance(s1, i-1, s2, j-1) + match(s1[i], s2[j]);
-
-    return min(3, a, b, c);
+    return min( 3,levensteinDistance(s1, i-1, s2, j) + 1,
+                  levensteinDistance(s1, i, s2, j-1) + 1,
+                  levensteinDistance(s1, i-1, s2, j-1) + match(s1[i], s2[j]) );
 }
 
 
