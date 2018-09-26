@@ -1,1 +1,68 @@
 \chapter{Исследовательский раздел}
+Данный раздел посвящен тестированию и исследованию трех реализованных алгоримтов: алгоритмам Левенштейна, Дамерау -- Левенштейна и рекурсивной реализации Левенштейна.
+
+\section{ Примеры работы}
+Алгоритм Левенштейна:
+
+\begin{tabular}{c}
+Input s1: OTAPA\\
+Input s2: TAPTAP\\
+
+0 1 2 3 4 5 6\\
+1 1 2 3 4 5 6\\
+2 1 2 3 3 4 5\\
+3 2 1 2 3 3 4\\
+4 3 2 1 2 3 3\\
+5 4 3 2 2 2 3\\
+\end{tabular}\\
+
+
+\begin{tabular}{c}
+Input s1: MGTU\\
+Input s2: MTGU\\
+
+0 1 2 3 4 \\ 
+1 0 1 2 3\\
+2 1 1 1 2\\
+3 2 1 2 2\\
+4 3 2 2 2\\
+\end{tabular}\\
+
+Алгоритм Дамерау -- Левенштейна:
+
+\begin{tabular}{c}
+Input s1: MGTU \\ 
+Input s2: MTGU\\
+
+0 1 2 3 4\\
+1 0 1 2 3\\
+2 1 1 1 2\\
+3 2 1 1 2\\
+4 3 2 2 1\\
+\end{tabular}\\
+
+\begin{tabular}{c}
+Input s1: KNUTH\\
+Input s2: TANENBAUM\\
+
+0 1 2 3 4 5 6 7 8 9\\
+1 1 2 3 4 5 6 7 8 9\\
+2 2 2 2 3 4 5 6 7 8\\
+3 3 3 3 3 4 5 6 6 7\\
+4 3 4 4 4 4 5 6 7 7\\
+5 4 4 5 5 5 5 6 7 8\\
+\end{tabular}\\
+
+Алгоритм Левенштейна(Рекурсивный):
+
+\begin{tabular}{c}
+Input s1: MGTU\\
+Input s2: MTGU\\
+Length is : 2\\
+\end{tabular}\\
+
+\begin{tabular}{c}
+Input s1: OTAPA\\
+Input s2: TAPTAP\\
+Length is : 3\\
+\end{tabular}\\
