@@ -4,7 +4,7 @@
 
 #define MAX_STRING_SIZE 1000
 
-int levensteinDistance( char* s1, int i, char *s2, int j);
+int levensteinDistance( char* s1, int i, char *s2, int j, int* counter);
 
 int inputData( char* s1, char* s2, int* err );
 int min(int count, ...);
@@ -21,21 +21,23 @@ int main() {
 
         int i = strlen(s1);
         int j = strlen(s2);
-        int len = levensteinDistance(s1, i, s2, j);
+        int counter = 0;
+        int len = levensteinDistance(s1, i, s2, j, &counter);
 
-        printf("Length is : %d\n", len);
+        printf("Length is : %d\nfunction called %d times\n", len, counter);
 }
 
 
 
-int levensteinDistance( char* s1, int i, char* s2, int j )
+int levensteinDistance( char* s1, int i, char* s2, int j, int* counter)
 {
+    (*counter)++;
     if(i == 0) return j;
     if(j == 0) return i;
 
-    return min( 3,levensteinDistance(s1, i-1, s2, j) + 1,
-                  levensteinDistance(s1, i, s2, j-1) + 1,
-                  levensteinDistance(s1, i-1, s2, j-1) + match(s1[i], s2[j]) );
+    return min( 3,levensteinDistance(s1, i-1, s2, j, counter) + 1,
+                  levensteinDistance(s1, i, s2, j-1, counter) + 1,
+                  levensteinDistance(s1, i-1, s2, j-1, counter) + match(s1[i], s2[j]) );
 }
 
 

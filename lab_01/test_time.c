@@ -16,9 +16,13 @@ int main(int argc, const char* argv[])
             start_dt, end_dt,
             start_rt, end_rt;
 
+    matrixInit(&matrix, strlen(s1), strlen(s2));
+
     start_lt = clock();
     levensteinDistance(s1, s2, &matrix);
     end_lt = clock();
+
+    matrixInit(&matrix, strlen(s1), strlen(s2));
 
     start_dt = clock();
     damerauDistance(s1, s2, &matrix);
@@ -27,7 +31,8 @@ int main(int argc, const char* argv[])
     int i = strlen(s1);
     int j = strlen(s2);
     start_rt = clock();
-    //recursiveDistance(s1, i, s2, j);
+    if(i < 16 && j < 16)
+        recursiveDistance(s1, i, s2, j);
     end_rt = clock();
 
     printf("%f %f %f\n", (double)(end_lt-start_lt) / CLOCKS_PER_SEC,

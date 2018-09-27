@@ -16,8 +16,6 @@ int levensteinDistance( char* s1, char* s2,
     size_t len1 = strlen(s1);
     size_t len2 = strlen(s2);
 
-    matrixInit(matrix, len1, len2);
-
     int cost = 1; 
     for(int i = 1; i <= len1; i++)
         for(int j = 1; j <= len2; j++) {
@@ -39,8 +37,6 @@ int damerauDistance( char* s1, char* s2,
 {
     size_t len1 = strlen(s1);
     size_t len2 = strlen(s2);
-
-    matrixInit(matrix, len1, len2);
 
     int cost = 1; 
     for(int i = 1; i <= len1; i++)
