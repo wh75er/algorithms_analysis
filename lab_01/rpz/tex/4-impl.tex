@@ -11,8 +11,9 @@
 Замер времени производится с помощью библиотеки \textit{time.h}. Данная библиотека позволяет производить замер тиков, откуда можно получать время в секундах. 
 
 \section{ Листинг}
-Алгоритм Левенштейна: 
-\begin{lstlisting}[style=CStyle]
+Алгоритм Левенштейна представлен в листинге \ref{list:levenst}
+\begin{lstlisting}[style=CStyle, caption={Levenstein algorithm},
+                    label={list:levenst}]
 int levensteinDistance( char* s1, char* s2,
                         int ( * matrix)[MAX_STRING_SIZE][MAX_STRING_SIZE] )
 {
@@ -36,8 +37,9 @@ int levensteinDistance( char* s1, char* s2,
 }
 \end{lstlisting}
 
-Листинг алгоритма Дамерау -- Левенштейна:
-\begin{lstlisting}[style=CStyle]
+Листинг алгоритма Дамерау -- Левенштейна представлен в листинге \ref{list:damerau}
+\begin{lstlisting}[style=CStyle, caption={Damerau -- Levenstein algorithm},
+                    label={list:damerau}]
 int levensteinDistance( char* s1, char* s2,
                         int ( * matrix)[MAX_STRING_SIZE][MAX_STRING_SIZE] )
 {
@@ -67,8 +69,9 @@ int levensteinDistance( char* s1, char* s2,
 }
 \end{lstlisting}
 
-Листинг алгоримта Левенштейна в рекурсивной реализации:
-\begin{lstlisting}[style=CStyle]
+Листинг алгоримта Левенштейна в рекурсивной реализации представлен в листинге \ref{list:recursive}
+\begin{lstlisting}[style=CStyle, caption={ Recursive Levenstein algorithm},
+                    label={list:recursive}]
 int levensteinDistance( char* s1, int i, char* s2, int j )
 {
     if(i == 0) return j;
@@ -80,8 +83,9 @@ int levensteinDistance( char* s1, int i, char* s2, int j )
 }
 \end{lstlisting}
 
-Листинг функции match():
-\begin{lstlisting}[style=CStyle]
+Листинг функции match() представлен в листинге \ref{list:match}
+\begin{lstlisting}[style=CStyle, caption={Function match()},
+                    label={list:match}]
 int match(char c, char d)
 {
     if(c == d) return 0;
