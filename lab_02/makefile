@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall
+CFLAGS=-Wall -g
 DEPS = winograd.h functions.h
 OBJ = winograd.o functions.o
 OBJ_ENHANCE = winograd_enhanced.o functions.o
@@ -16,7 +16,7 @@ win_enhanced.out: $(OBJ_ENHANCE)
 		$(CC) -o $@ $^ $(CFLAGS)
 
 cleanOBJ:
-	rm $(OBJ)
+	rm $(OBJ) $(OBJ_ENHANCE)
 
 clean:
-	rm $(OBJ) *.out 2> /dev/null
+	rm $(OBJ) $(OBJ_ENHANCE) *.out 2> /dev/null

@@ -48,25 +48,26 @@ void winograd_enhanced( int** a, int r_a, int c_a ,
     int* rows = (int*)malloc(sizeof(int) * r_a);
     for(int i = 0; i < r_a; i++) {
         rows[i] = 0;
-        rows[i] += a[i][0] * a[i][1];
-        for(int j = 1; j < d; j++)
-            rows[i] += a[i][2*j] * a[i][2*j+1];
+        for(int j = 0; j < c_a; j+=2)
+            rows[i] += a[i][j] * a[i][j+1];
     }
 
     int* columns = (int*)malloc(sizeof(int) * c_b);
     for(int i = 0; i < c_b; i++) {
         columns[i] = 0;
-        columns[i] += b[0][i]*b[1][i];
-        for(int j = 1; j < d; j++)
-            columns[i] += b[2*j][i] * b[2*j+1][i];
+        for(int j = 0; j < c_a; j+=2)
+            columns[i] += b[j][i] * b[j+1][i];
     }
 
+    int buf = 0;
     for(int i = 0; i < r_a; i++)
         for(int j = 0; j < c_b; j++) {
-            c[i][j] = -rows[i] - columns[j];
-            for(int k = 0; k < d; k++)
-                c[i][j] += (a[i][2*k] + b[2*k+1][j]) * 
-                            (a[i][2*k+1] + b[2*k][j]);
+            buf = 0;
+            buf = -rows[i] - columns[j];
+            for(int k = 0; k < c_a; k+=2)
+                buf += (a[i][k] + b[k+1][j]) * 
+                            (a[i][k+1] + b[k][j]);
+            c[i][j] = buf;
         }
 
     if(c_b%2)
@@ -77,7 +78,6 @@ void winograd_enhanced( int** a, int r_a, int c_a ,
     free(rows);
     free(columns);
 }
-
 
 
 int** allocateM(size_t r, size_t c)
@@ -123,4 +123,5 @@ void freeM(int** a, size_t r)
     //    free(a[i]);
     free(a);
 }
+
 
