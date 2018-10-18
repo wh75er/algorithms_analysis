@@ -12,8 +12,6 @@ int main(int argc, const char* argv[])
     sscanf(argv[2], "%ld", &c_a);
     sscanf(argv[3], "%ld", &c_b);
 
-    printf("%ld\n", r_a);
-
     srand(time(NULL));
     int** a = allocateM(r_a, c_a);
     randM(a, r_a, c_a);
