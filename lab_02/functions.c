@@ -43,19 +43,17 @@ void winograd_enhanced( int** a, int r_a, int c_a ,
                         int** b, int r_b, int c_b, 
                         int** c, int r_c, int c_c)
 {
-    int d = c_a / 2;
-
     int* rows = (int*)malloc(sizeof(int) * r_a);
     for(int i = 0; i < r_a; i++) {
         rows[i] = 0;
-        for(int j = 0; j < c_a; j+=2)
+        for(int j = 0; j < c_a-1; j+=2)
             rows[i] += a[i][j] * a[i][j+1];
     }
 
     int* columns = (int*)malloc(sizeof(int) * c_b);
     for(int i = 0; i < c_b; i++) {
         columns[i] = 0;
-        for(int j = 0; j < c_a; j+=2)
+        for(int j = 0; j < c_a-1; j+=2)
             columns[i] += b[j][i] * b[j+1][i];
     }
 
@@ -64,7 +62,7 @@ void winograd_enhanced( int** a, int r_a, int c_a ,
         for(int j = 0; j < c_b; j++) {
             buf = 0;
             buf = -rows[i] - columns[j];
-            for(int k = 0; k < c_a; k+=2)
+            for(int k = 0; k < c_a-1; k+=2)
                 buf += (a[i][k] + b[k+1][j]) * 
                             (a[i][k+1] + b[k][j]);
             c[i][j] = buf;
