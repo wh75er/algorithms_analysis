@@ -68,8 +68,6 @@ int** allocateM(size_t r, size_t c)
 {
     int** matrix = (int**)malloc(sizeof(int*) * r);
     if(matrix)
-    //    for(int i = 0; i < r; i++)
-    //        matrix[i] = (int*)malloc(sizeof(int) * c);
         matrix[0] = (int*)malloc(sizeof(int) * c * r);
     else
         return NULL;
