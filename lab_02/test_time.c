@@ -45,6 +45,9 @@ int main(int argc, const char* argv[])
         rows[i] = 0;
     for(int i = 0; i < c_b; i++)
         columns[i] = 0;
+    for(int i = 0; i < r_a; i++)
+        for(int j = 0; j < c_b; j++)
+            c[i][j] = 0;
 
 
     if(a && b && c) {
