@@ -11,10 +11,20 @@ int main()
 
     int** c = allocateM(A_ROWS, B_COLS);
 
+    int* rows = (int*)malloc(sizeof(int) * A_ROWS);
+    for(int i = 0; i < A_ROWS; i++)
+        rows[i] = 0;
+
+    int* columns = (int*)malloc(sizeof(int) * B_COLS);
+    for(int i = 0; i < B_COLS; i++)
+        columns[i] = 0;
+
+
     if(a && b && c)
         winograd(   a, A_ROWS, A_COLS,
                     b, A_COLS, B_COLS,
-                    c, A_ROWS, B_COLS);
+                    c, A_ROWS, B_COLS,
+                    rows, columns);
 
     printM(a, A_ROWS, A_COLS);
     printf("\n");
@@ -25,6 +35,8 @@ int main()
     freeM(a, A_ROWS);
     freeM(b, A_COLS);
     freeM(c, A_ROWS);
+    free(rows);
+    free(columns);
 
     return 1;
 }

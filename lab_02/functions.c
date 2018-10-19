@@ -2,11 +2,11 @@
 
 void winograd(  int** a, int r_a, int c_a , 
                 int** b, int r_b, int c_b, 
-                int** c, int r_c, int c_c)
+                int** c, int r_c, int c_c,
+                int* rows, int* columns)
 {
     int d = c_a / 2;
 
-    int* rows = (int*)malloc(sizeof(int) * r_a);
     for(int i = 0; i < r_a; i++) {
         rows[i] = 0;
         rows[i] += a[i][0] * a[i][1];
@@ -14,7 +14,6 @@ void winograd(  int** a, int r_a, int c_a ,
             rows[i] += a[i][2*j] * a[i][2*j+1];
     }
 
-    int* columns = (int*)malloc(sizeof(int) * c_b);
     for(int i = 0; i < c_b; i++) {
         columns[i] = 0;
         columns[i] += b[0][i]*b[1][i];
@@ -30,51 +29,42 @@ void winograd(  int** a, int r_a, int c_a ,
                             (a[i][2*k+1] + b[2*k][j]);
         }
 
-    if(c_b%2)
+    if(c_a%2)
         for(int i = 0; i < r_a; i++)
             for(int j = 0; j < c_b; j++)
                 c[i][j] += a[i][c_a-1] * b[c_a-1][j];
-
-    free(rows);
-    free(columns);
 }
 
 void winograd_enhanced( int** a, int r_a, int c_a , 
                         int** b, int r_b, int c_b, 
-                        int** c, int r_c, int c_c)
+                        int** c, int r_c, int c_c,
+                        int* rows, int* columns)
 {
-    int* rows = (int*)malloc(sizeof(int) * r_a);
+    int d = c_a - 1;
     for(int i = 0; i < r_a; i++) {
         rows[i] = 0;
-        for(int j = 0; j < c_a-1; j+=2)
+        for(int j = 0; j < d; j+=2)
             rows[i] += a[i][j] * a[i][j+1];
     }
 
-    int* columns = (int*)malloc(sizeof(int) * c_b);
     for(int i = 0; i < c_b; i++) {
         columns[i] = 0;
-        for(int j = 0; j < c_a-1; j+=2)
+        for(int j = 0; j < d; j+=2)
             columns[i] += b[j][i] * b[j+1][i];
     }
 
-    int buf = 0;
     for(int i = 0; i < r_a; i++)
         for(int j = 0; j < c_b; j++) {
-            buf = 0;
-            buf = -rows[i] - columns[j];
-            for(int k = 0; k < c_a-1; k+=2)
-                buf += (a[i][k] + b[k+1][j]) * 
+            c[i][j] = -rows[i] - columns[j];
+            for(int k = 0; k < d; k+=2)
+                c[i][j] += (a[i][k] + b[k+1][j]) * 
                             (a[i][k+1] + b[k][j]);
-            c[i][j] = buf;
         }
 
-    if(c_b%2)
+    if(c_a%2)
         for(int i = 0; i < r_a; i++)
             for(int j = 0; j < c_b; j++)
-                c[i][j] += a[i][c_a-1] * b[c_a-1][j];
-
-    free(rows);
-    free(columns);
+                c[i][j] += a[i][d] * b[d][j];
 }
 
 

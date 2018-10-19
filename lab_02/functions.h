@@ -7,11 +7,13 @@
 
 void winograd(  int** a, int r_a, int c_a , 
                 int** b, int r_b, int c_b, 
-                int** c, int r_c, int c_c);
+                int** c, int r_c, int c_c,
+                int* rows, int* columns);
 
 void winograd_enhanced( int** a, int r_a, int c_a , 
                         int** b, int r_b, int c_b, 
-                        int** c, int r_c, int c_c);
+                        int** c, int r_c, int c_c,
+                        int* rows, int* columns);
 
 int** allocateM(size_t n, size_t m);
 void randM(int** a, size_t r, size_t c);

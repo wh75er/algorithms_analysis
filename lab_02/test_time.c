@@ -21,6 +21,14 @@ int main(int argc, const char* argv[])
 
     int** c = allocateM(r_a, c_b);
 
+    int* rows = (int*)malloc(sizeof(int) * r_a);
+    for(int i = 0; i < r_a; i++)
+        rows[i] = 0;
+    int* columns = (int*)malloc(sizeof(int) * c_b);
+    for(int i = 0; i < c_b; i++)
+        columns[i] = 0;
+
+
     clock_t start_enh, end_enh,
             start_t,   end_t;
 
@@ -28,15 +36,23 @@ int main(int argc, const char* argv[])
         start_enh = clock();
         winograd_enhanced(  a, r_a, c_a,
                             b, c_a, c_b,
-                            c, r_a, c_b);
+                            c, r_a, c_b,
+                            rows, columns);
         end_enh = clock();
     }
+
+    for(int i = 0; i < r_a; i++)
+        rows[i] = 0;
+    for(int i = 0; i < c_b; i++)
+        columns[i] = 0;
+
 
     if(a && b && c) {
         start_t = clock();
         winograd(   a, r_a, c_a,
                     b, c_a, c_b,
-                    c, r_a, c_b);
+                    c, r_a, c_b,
+                    rows, columns);
         end_t = clock();
     }
 
@@ -48,6 +64,8 @@ int main(int argc, const char* argv[])
     freeM(a, r_a);
     freeM(b, c_a);
     freeM(c, r_a);
+    free(columns);
+    free(rows);
 
     return 1;
 }
