@@ -8,29 +8,29 @@ void winograd(  int** a, int r_a, int c_a ,
     int d = c_a / 2;
 
     for(int i = 0; i < r_a; i++) {
-        rows[i] += a[i][0] * a[i][1];
+        rows[i] = rows[i] + a[i][0] * a[i][1];
         for(int j = 1; j < d; j++)
-            rows[i] += a[i][2*j] * a[i][2*j+1];
+            rows[i] = rows[i] + a[i][2*j] * a[i][2*j+1];
     }
 
     for(int i = 0; i < c_b; i++) {
-        columns[i] += b[0][i]*b[1][i];
+        columns[i] = columns[i] + b[0][i]*b[1][i];
         for(int j = 1; j < d; j++)
-            columns[i] += b[2*j][i] * b[2*j+1][i];
+            columns[i] = columns[i] + b[2*j][i] * b[2*j+1][i];
     }
 
     for(int i = 0; i < r_a; i++)
         for(int j = 0; j < c_b; j++) {
             c[i][j] = -rows[i] - columns[j];
             for(int k = 0; k < d; k++)
-                c[i][j] += (a[i][2*k] + b[2*k+1][j]) * 
+                c[i][j] = c[i][j] + (a[i][2*k] + b[2*k+1][j]) * 
                             (a[i][2*k+1] + b[2*k][j]);
         }
 
     if(c_a%2)
         for(int i = 0; i < r_a; i++)
             for(int j = 0; j < c_b; j++)
-                c[i][j] += a[i][c_a-1] * b[c_a-1][j];
+                c[i][j] = c[i][j] + a[i][c_a-1] * b[c_a-1][j];
 }
 
 void winograd_enhanced( int** a, int r_a, int c_a , 
