@@ -4,91 +4,81 @@
 Данный раздел содержит информацию о реализации ПО и листингах програм.
 
 \section{ Требования к програмному ПО}
-Программы реализованы в двух вариациях. Первая -- каждая программа реализована поотдельности и обладает своим собственным функционалом -- возможность вводить строки и получать вывод в поток вывода. Вторая -- программа, содержащая в себе функции с реализованными алгоритмами, в которой производится тестирование времени алгоритмов и вывод отправляется в поток вывода информации.
+Программы реализованы в двух вариациях. Первая -- каждая программа реализована поотдельности и обладает своим собственным функционалом -- возможность определять размеры матриц и получать вывод в поток вывода. Вторая -- программа, содержащая в себе функции с реализованными алгоритмами, в которой производится тестирование времени алгоритмов и вывод отправляется в поток вывода информации.
 
 \section{ Средства реализации }
 Данные реализации разрабатывались на языке C, использовался компилятор gcc-8.2.1.
 Замер времени производится с помощью библиотеки \textit{time.h}. Данная библиотека позволяет производить замер тиков, откуда можно получать время в секундах. 
+Программы компилировались с выключенной оптимизацией с флагом -O0
 
 \section{ Листинг}
-Алгоритм Левенштейна представлен в листинге \ref{list:levenst}
-\begin{lstlisting}[style=CStyle, caption={Levenstein algorithm},
-                    label={list:levenst}]
-int levensteinDistance( char* s1, char* s2,
-                        int ( * matrix)[MAX_STRING_SIZE][MAX_STRING_SIZE] )
+Алгоритм Винограда классический представлен в листинге \ref{list:winograd}
+\begin{lstlisting}[style=CStyle, caption={Winograd algorithm},
+                    label={list:winograd}]
+
+void winograd(  int** a, int ra, int ca , 
+                int** b, int rb, int cb, 
+                int** c, int rc, int cc,
+                int* rows, int* columns)
 {
-    size_t len1 = strlen(s1);
-    size_t len2 = strlen(s2);
+    int d = ca / 2;
 
-    matrixInit(matrix, len1, len2);
+    for(int i = 0; i < ra; i++) {
+        rows[i] += a[i][0] * a[i][1];
+        for(int j = 1; j < d; j++)
+            rows[i] += a[i][2*j] * a[i][2*j+1];
+    }
 
-    int cost = 1;
-    for(int i = 1; i <= len1; i++)
-        for(int j = 1; j <= len2; j++) {
-            if(s1[i-1] == s2[j-1])
-                cost = 0;
-            else
-                cost = 1;
-            ( * matrix)[i][j] = min( 3,
-                        ( * matrix)[i-1][j]+1,
-                        ( * matrix)[i][j-1]+1,
-                        ( * matrix)[i-1][j-1]+cost );
+    for(int i = 0; i < cb; i++) {
+        columns[i] += b[0][i]*b[1][i];
+        for(int j = 1; j < d; j++)
+            columns[i] += b[2*j][i] * b[2*j+1][i];
+    }
+
+    for(int i = 0; i < ra; i++)
+        for(int j = 0; j < cb; j++) {
+            c[i][j] = -rows[i] - columns[j];
+            for(int k = 0; k < d; k++)
+                c[i][j] += (a[i][2*k] + b[2*k+1][j]) * 
+                            (a[i][2*k+1] + b[2*k][j]);
         }
+
+    if(ca%2)
+        for(int i = 0; i < ra; i++)
+            for(int j = 0; j < cb; j++)
+                c[i][j] += a[i][ca-1] * b[ca-1][j];
 }
 \end{lstlisting}
 
-Листинг алгоритма Дамерау -- Левенштейна представлен в листинге \ref{list:damerau}
-\begin{lstlisting}[style=CStyle, caption={Damerau -- Levenstein algorithm},
-                    label={list:damerau}]
-int levensteinDistance( char* s1, char* s2,
-                        int ( * matrix)[MAX_STRING_SIZE][MAX_STRING_SIZE] )
+\begin{lstlisting}[style=CStyle, caption={Winograd enhanced algorithm},
+                    label={list:winograd}]
+void winogradEnhanced(  int** a, int ra, int ca , 
+                        int** b, int rb, int cb, 
+                        int** c, int rc, int cc,
+                        int* rows, int* columns)
 {
-    size_t len1 = strlen(s1);
-    size_t len2 = strlen(s2);
+    int d = ca - 1;
+    for(int i = 0; i < ra; i++) {
+        for(int j = 0; j < d; j+=2)
+            rows[i] += a[i][j] * a[i][j+1];
+    }
 
-    matrixInit(matrix, len1, len2);
+    for(int i = 0; i < cb; i++) {
+        for(int j = 0; j < d; j+=2)
+            columns[i] += b[j][i] * b[j+1][i];
+    }
 
-    int cost = 1;
-    for(int i = 1; i <= len1; i++)
-        for(int j = 1; j <= len2; j++) {
-            int flag = 0;
-            if(s1[i-1] == s2[j-1])
-                cost = 0;
-            else
-                cost = 1;
-            int l1= min( 3,
-                        ( * matrix)[i-1][j]+1,
-                        ( * matrix)[i][j-1]+1,
-                        ( * matrix)[i-1][j-1]+cost );
-            int l2 = l1;
-            if(i>=2 && j>=2)
-                if(s1[i-1] == s2[j-2] && s2[j-1] == s1[i-2])
-                    l2 = ( * matrix)[i-2][j-2]+1;
-            ( * matrix)[i][j] = min(2, l1, l2);
+    for(int i = 0; i < ra; i++)
+        for(int j = 0; j < cb; j++) {
+            c[i][j] = -rows[i] - columns[j];
+            for(int k = 0; k < d; k+=2)
+                c[i][j] += (a[i][k] + b[k+1][j]) * 
+                            (a[i][k+1] + b[k][j]);
         }
-}
-\end{lstlisting}
 
-Листинг алгоримта Левенштейна в рекурсивной реализации представлен в листинге \ref{list:recursive}
-\begin{lstlisting}[style=CStyle, caption={ Recursive Levenstein algorithm},
-                    label={list:recursive}]
-int levensteinDistance( char* s1, int i, char* s2, int j )
-{
-    if(i == 0) return j;
-    if(j == 0) return i;
-
-    return min( 3,levensteinDistance(s1, i-1, s2, j) + 1,
-                  levensteinDistance(s1, i, s2, j-1) + 1,
-                  levensteinDistance(s1, i-1, s2, j-1) + match(s1[i], s2[j]) );
-}
-\end{lstlisting}
-
-Листинг функции match() представлен в листинге \ref{list:match}
-\begin{lstlisting}[style=CStyle, caption={Function match()},
-                    label={list:match}]
-int match(char c, char d)
-{
-    if(c == d) return 0;
-    else return 1;
+    if(ca%2)
+        for(int i = 0; i < ra; i++)
+            for(int j = 0; j < cb; j++)
+                c[i][j] += a[i][d] * b[d][j];
 }
 \end{lstlisting}
