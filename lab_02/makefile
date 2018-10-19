@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall -g -O0
+CFLAGS=-Wall -O0
 DEPS = winograd.h functions.h
 OBJ = winograd.o functions.o
 OBJ_ENHANCE = winograd_enhanced.o functions.o
