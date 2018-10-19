@@ -8,14 +8,12 @@ void winograd(  int** a, int r_a, int c_a ,
     int d = c_a / 2;
 
     for(int i = 0; i < r_a; i++) {
-        rows[i] = 0;
         rows[i] += a[i][0] * a[i][1];
         for(int j = 1; j < d; j++)
             rows[i] += a[i][2*j] * a[i][2*j+1];
     }
 
     for(int i = 0; i < c_b; i++) {
-        columns[i] = 0;
         columns[i] += b[0][i]*b[1][i];
         for(int j = 1; j < d; j++)
             columns[i] += b[2*j][i] * b[2*j+1][i];
@@ -42,13 +40,11 @@ void winograd_enhanced( int** a, int r_a, int c_a ,
 {
     int d = c_a - 1;
     for(int i = 0; i < r_a; i++) {
-        rows[i] = 0;
         for(int j = 0; j < d; j+=2)
             rows[i] += a[i][j] * a[i][j+1];
     }
 
     for(int i = 0; i < c_b; i++) {
-        columns[i] = 0;
         for(int j = 0; j < d; j+=2)
             columns[i] += b[j][i] * b[j+1][i];
     }

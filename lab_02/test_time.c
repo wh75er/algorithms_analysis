@@ -56,8 +56,8 @@ int main(int argc, const char* argv[])
         end_t = clock();
     }
 
-    printf("%f %f\n", (double)(end_enh-start_enh) / CLOCKS_PER_SEC,
-                      (double)(end_t-start_t) / CLOCKS_PER_SEC);
+    printf("%f %f\n", 1000*(double)(end_t-start_t) / CLOCKS_PER_SEC,
+                      1000*(double)(end_enh-start_enh) / CLOCKS_PER_SEC);
 
 
 
