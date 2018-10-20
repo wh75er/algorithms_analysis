@@ -63,6 +63,16 @@ void winograd_enhanced( int** a, int r_a, int c_a ,
                 c[i][j] += a[i][d] * b[d][j];
 }
 
+void classic(           int** a, int r_a, int c_a , 
+                        int** b, int r_b, int c_b, 
+                        int** c, int r_c, int c_c)
+{
+    for(int i = 0; i < r_a; i++)
+        for(int j = 0; j < c_b; j++)
+            for(int k = 0; k < r_b; k++)
+                c[i][j] += a[i][k] * b[k][j];
+}
+
 
 int** allocateM(size_t r, size_t c)
 {

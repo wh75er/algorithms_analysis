@@ -15,6 +15,10 @@ void winograd_enhanced( int** a, int r_a, int c_a ,
                         int** c, int r_c, int c_c,
                         int* rows, int* columns);
 
+void classic          ( int** a, int r_a, int c_a, 
+                        int** b, int r_b, int c_b, 
+                        int** c, int r_c, int c_c);
+
 int** allocateM(size_t n, size_t m);
 void randM(int** a, size_t r, size_t c);
 void printM( int** a, size_t len1, size_t len2 );
