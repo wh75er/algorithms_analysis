@@ -3,8 +3,9 @@
 \section{ Разработка алгоритмов}
 
 \subsection{ Классический алгоритм умножения матриц}
+В листенге \ref{list:std} представлен стандартный алгоритм умножения матриц.
 
-\begin{lstlisting}[caption={Pseudocode of classic matrix multiplication}]
+\begin{lstlisting}[caption={Pseudocode of classic matrix multiplication}, label={list:std}]
 пока i < число строк матрицы А:
 	пока j < число элементов в строке матрицы B:
         пока k < число строк матрицы B:
@@ -14,8 +15,9 @@
 
 
 \subsection{ Классический алгоритм Винограда умножения матриц}
+В листинге \ref{list:win} представлен классический алгоритм умножения Винограда
 
-\begin{lstlisting}[caption={Pseudocode of classic Winograd algorithm}]
+\begin{lstlisting}[caption={Pseudocode of classic Winograd algorithm}, label={list:win}]
 d = число строк B // 2
 пока i < число строк матрицы А:
 	пока j < d:
