@@ -106,3 +106,21 @@ void winogradEnhanced(  int** a, int ra, int ca ,
     // fwinogradEnhancedWorst = 18*ra*cb*d + 10*cb*d + 10*ra*d + 19*ra*cb + 12*ra + 4*cb + 12
 }
 \end{lstlisting}
+
+Листинг стандартного перемножения матриц представлен в \ref{list:classicM}
+
+\begin{lstlisting}[style=CStyle, caption={Classic matrix multiplication},
+                    label={list:classicM}]
+void classic(           int** a, int ra, int ca , 
+                        int** b, int rb, int cb, 
+                        int** c, int rc, int cc)
+{
+    for(int i = 0; i < ra; i++)
+        for(int j = 0; j < cb; j++)
+            for(int k = 0; k < rb; k++)
+                c[i][j] += a[i][k] * b[k][j];
+    // fstd = 2 + ra(2 + 2 + cb(2 + 2 + rb(1 + 1 + 8 + 1 + 2))) = 13*ra*cb*rb + 4*ra*cb + 4*ra + 2
+}
+\end{lstlisting}
+
+
