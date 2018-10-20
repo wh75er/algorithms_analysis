@@ -1,5 +1,5 @@
 echo starting...
-DIR='tests/test_noneven'
+DIR='tests/test_noneven_classic'
 
 rm ${DIR}
 for i in {101..1001..100}; do

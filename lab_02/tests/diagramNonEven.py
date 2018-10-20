@@ -12,10 +12,12 @@ ClassicMeans = [20.809, 161.322, 541.239, 1284.754, 2528.653, 4918.674,
 EnhancedMeans = [21.282, 156.754, 525.954, 1236.969, 2422.614, 4727.957,
                          7528.168, 11282.570, 16120.746, 22264.232]
 #womenStd =   [3, 5, 2, 3, 3]
+MultiplyMeans = [26.734, 204.425, 692.841, 1685.261, 3316.100, 6148.991, 
+                    9911.066, 15007.534, 21658.227, 30098.645]
 
 ## necessary variables
 ind = np.arange(N)                # the x locations for the groups
-width = 0.35                      # the width of the bars
+width = 0.20                      # the width of the bars
 
 ## the bars
 rects1 = ax.bar(ind, ClassicMeans, width,
@@ -28,6 +30,10 @@ rects2 = ax.bar(ind+width, EnhancedMeans, width,
                                                 #yerr=womenStd,
                                                                     error_kw=dict(elinewidth=2,ecolor='black'))
 
+rects3 = ax.bar(ind+width+width, MultiplyMeans, width,
+                            color='blue',
+                                                #yerr=womenStd,
+                                                                    error_kw=dict(elinewidth=2,ecolor='blue'))
 ymin = 0
 ymax = max(max(ClassicMeans), max(EnhancedMeans))
 
@@ -42,7 +48,8 @@ xtickNames = ax.set_xticklabels(xTickMarks)
 plt.setp(xtickNames, rotation=45, fontsize=10)
 
 ## add a legend
-ax.legend( (rects1[0], rects2[0]), ('Classic', 'Enhanced') )
+#ax.legend( (rects1[0], rects2[0]), ('Classic', 'Enhanced') )
+ax.legend( (rects1[0], rects2[0], rects3[0]), ('ClassicWin', 'Enhanced', 'ClassicAlgorithm') )
 
 plt.show()
 
