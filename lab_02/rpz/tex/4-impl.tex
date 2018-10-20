@@ -49,7 +49,7 @@ void winograd(  int** a, int ra, int ca ,
                             (a[i][2*k+1] + b[2*k][j]);
         }
 
-    // f4 = 1 + ( (0) or ra*cb*14 + 4*ra + 2 )
+    // f4 = 1 + ( (0) or (ra*cb*14 + 4*ra + 2) )
 
     if(ca%2)
         for(int i = 0; i < ra; i++)
@@ -95,7 +95,7 @@ void winogradEnhanced(  int** a, int ra, int ca ,
                             (a[i][k+1] + b[k][j]);
         }
 
-    // f4 = 1 + ( (0) or ra*cb*8 + 4*ra + 2 )
+    // f4 = 1 + ( (0) or (ra*cb*8 + 4*ra + 2) )
 
     if(ca%2)
         for(int i = 0; i < ra; i++)
