@@ -2,42 +2,59 @@
 \label{cha:design}
 \section{ Разработка алгоритмов}
 
-\subsection{ Классический алгоритм умножения матриц}
-В листенге \ref{list:std} представлен стандартный алгоритм умножения матриц.
+\subsection{ Алгоритм сортировки пузырька}
+В листенге \ref{list:bubblePseudo} представлен алгоритм сортировки пузырьком.
 
-\begin{lstlisting}[caption={Pseudocode of classic matrix multiplication}, label={list:std}]
-пока i < число строк матрицы А:
-	пока j < число элементов в строке матрицы B:
-        пока k < число строк матрицы B:
-		    Результирующая матрица C[i][j] += A[i][k]*B[k][j]
+\begin{lstlisting}[caption={Pseudocode of bubble sort}, label={list:bubblePseudo}]
+цикл для j от min до max
+    цикл для i от min до max-1
+        если A[i] больше чем A[i+1] то:
+            обменять местами A[i] и A[i+1]
 \end{lstlisting}	
 
 
+\subsection{ Алгоритм сортировки слиянием}
+В листинге \ref{list:mergePseudo} представлен алгоритм сортировки слиянием.
 
-\subsection{ Классический алгоритм Винограда умножения матриц}
-В листинге \ref{list:win} представлен классический алгоритм умножения Винограда
+\begin{lstlisting}[caption={Pseudocode of merge sort}, label={list:mergePseudo}]
+функция mergesort( массив А )
+    Если n=1 то:
+        вернуть А
 
-\begin{lstlisting}[caption={Pseudocode of classic Winograd algorithm}, label={list:win}]
-d = число строк B // 2
-пока i < число строк матрицы А:
-	пока j < d:
-		rows[i] += A[i][2*j]*A[i][2*j + 1]
+    l1 = A[0] .. A[n/2]
+    l2 = A[n/2+1] .. A[n]
 
-пока i < число столбцов B:
-	пока j < d:
-		colms[i] += B[2*j][i]*B[2*j+1][i]
+    l1 = mergesort( l1 )
+    l2 = mergesort( l2 )
 
-пока i < число строк A:
-	пока j < число cтолбцов B:
-        результат[i][j] = -rows[i] - colms[i]
-        пока k < d:
-            результат[i][j] += (A[i][2*k] + B[2*k+1][j]) * (A[i][2*k+1] + B[2*k][j])
+    вернуть merge( l1, l2 )
+конец функции
 
-если количество элементов в строке матрицы A нечетная:
-    пока i < число строк в A:
-        пока j < число элементов в строке B:
-            результат[i][j] += A[i][индекс последнего элемента строки A] * B[индекс последнего элемента строки A][j];
+функция merge( массив A, массив B )
+    пока в A и в B есть элементы:
+        если A[0] > B[0]:
+            добавить B[0] в конец C
+            удалить B[0] из B
+        иначе
+            добавить A[0] в конец C
+            удалить A[0] из A
+    пока в A есть элементы:
+        добавить A[0] в конец C
+        удалить A[0] из A
+    пока в B есть элементы:
+        добавить B[0] в конец C
+        удалить B[0] из B
+    вернуть C
+конец функции
 \end{lstlisting}	
 
+\subsection{ Алгоритм сортировки простыми вставками}
+Листинг алгоритма сортировки простыми вставками представлен в \ref{list:insertionsPseudo}
 
-
+\begin{lstlisting}[caption={Pseudocode of insertions algorithm}, label={list:insertionsPseudo}]
+цикл для i от 0 до n - 1
+    j = i - 1
+    пока j >= 0 и a[j] > a[j + 1] 
+        поменять местами a[j] и a[j + 1]
+        j--
+\end{lstlisting}
