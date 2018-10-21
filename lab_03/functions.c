@@ -87,3 +87,20 @@ void printA(int* a, size_t size)
     printf("\n");
 } 
 
+void copyA(int* src, int* dest, size_t size)
+{
+    for(int i = 0; i < size; i++)
+        dest[i] = src[i];
+}
+
+void fillBestCase(int* dest, size_t size)
+{
+    for(int i = 0; i < size; i++)
+        dest[i] = i;
+}
+
+void fillWorstCase(int* dest, size_t size)
+{
+    for(int i = 0; i < size; i++)
+        dest[i] = size - i;
+}
