@@ -2,16 +2,11 @@
 
 int main(int argc, const char* argv[])
 {
-    if(argc != 4)
+    if(argc != 2)
         return 0;
-    size_t r_a;
-    size_t c_a;
-    size_t c_b;
+    size_t size;
 
-    sscanf(argv[1], "%ld", &r_a);
-    sscanf(argv[2], "%ld", &c_a);
-    sscanf(argv[3], "%ld", &c_b);
-
+    sscanf(argv[1], "%ld", &size);
     srand(time(NULL));
     
     clock_t start_t,   end_t;
