@@ -7,6 +7,9 @@ use functions::*;
 use winograd::*;
 use standard::*;
 
+use std::thread;
+use std::time::Duration;
+
 fn main() {
     println!("Hello, world!");
     
