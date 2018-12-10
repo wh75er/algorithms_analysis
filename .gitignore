@@ -293,3 +293,6 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+/lab_05/target
+**/*.rs.bk
