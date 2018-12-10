@@ -1,4 +1,4 @@
-pub fn winograd(m1: Vec<Vec<i32>>, m2: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
+pub fn winograd(m1: &Vec<Vec<i32>>, m2: &Vec<Vec<i32>>) -> Vec<Vec<i32>> {
     let r_m1 = m1.len();
     let c_m1 = m1[0].len();
     println!("m1 : {}x{}", r_m1, c_m1);
