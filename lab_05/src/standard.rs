@@ -6,6 +6,10 @@ pub fn standard(m1: &Vec<Vec<i32>>, m2: &Vec<Vec<i32>>) -> Vec<Vec<i32>> {
     let c_m2 = m2[0].len();
     println!("m2 : {}x{}", r_m2, c_m2);
 
+    if c_m1 != r_m2 {
+        panic!("Unable multiply matrices. Incorrect sizes");
+    }
+
     let mut c = vec![vec![0; c_m2]; r_m1];
     
     let mut value = 0; 
