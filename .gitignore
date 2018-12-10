@@ -296,3 +296,5 @@ dkms.conf
 
 /lab_05/target
 **/*.rs.bk
+
+**/*.pdf
