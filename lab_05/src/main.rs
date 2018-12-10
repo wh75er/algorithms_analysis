@@ -1,9 +1,11 @@
 extern crate rand;
 
 mod winograd;
+mod standard;
 mod functions;
 use functions::*;
 use winograd::*;
+use standard::*;
 
 fn main() {
     println!("Hello, world!");
@@ -14,12 +16,9 @@ fn main() {
     let m2 = create_random_matrix(3, 3);
     println!("This is the second random matrix {:?}", m2);
     
-    let mut _2d = winograd(m1, m2);
-    println!("{:?}", _2d);
+    let mut _2d = winograd(&m1, &m2);
+    println!("Result matrix(winograd) is : {:?}", _2d);
 
-    for i in _2d {
-        for j in 0..i.len()+1 {
-            println!("{}", j);
-        }
-    }
+    _2d = standard(&m1, &m2);
+    println!("Result matrix(standard) is : {:?}", _2d);
 }
