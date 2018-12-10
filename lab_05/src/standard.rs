@@ -16,10 +16,8 @@ pub fn standard(m1: &Vec<Vec<i32>>, m2: &Vec<Vec<i32>>) -> Vec<Vec<i32>> {
     for i in 0..r_m1 {
         for j in 0..c_m2 {
             for k in 0..c_m1{
-                value += m1[i][k] * m2[k][j]
+                c[i][j] += m1[i][k] * m2[k][j]
             }
-            c[i][j] = value;
-            value = 0;
         }
     }
     
