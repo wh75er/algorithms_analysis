@@ -50,6 +50,7 @@ pub fn winograd(m1: &Vec<Vec<i32>>, m2: &Vec<Vec<i32>>, nthreads: usize) -> Vec<
             let columns_mutex = columns_arced.clone();
             threads.push(
             scope.spawn(move |_| {
+
                 let mut rows = rows_mutex.lock().unwrap();
                 for i in r_m1_from..r_m1_to {
                     (*rows)[i] += m1_data[i][0] * m1_data[i][1];
@@ -66,7 +67,6 @@ pub fn winograd(m1: &Vec<Vec<i32>>, m2: &Vec<Vec<i32>>, nthreads: usize) -> Vec<
                     }
                 }
             
-                
             }));
     
             c_m2_from = c_m2_to;                          // Columns shift for 2 matrix
@@ -84,7 +84,7 @@ pub fn winograd(m1: &Vec<Vec<i32>>, m2: &Vec<Vec<i32>>, nthreads: usize) -> Vec<
         for thread in threads {
             thread.join().unwrap()
         }
-        }).unwrap();
+    }).unwrap();
     }                                                   // End mutable scope
 
     for i in 0..r_m1 { 
