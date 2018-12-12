@@ -15,3 +15,12 @@ pub fn create_random_matrix(a: i32, b: i32) -> Vec<Vec<i32>> {
 
     v
 }
+
+pub fn print_matrix(m: &Vec<Vec<i32>>) {
+    for i in m {
+        for j in i {
+            print!("{} ", j);
+        }
+        print!("\n");
+    }
+}
