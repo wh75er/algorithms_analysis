@@ -1,4 +1,5 @@
 extern crate rand;
+extern crate crossbeam;
 
 mod winograd;
 mod standard;
@@ -7,8 +8,7 @@ use functions::*;
 use winograd::*;
 use standard::*;
 
-use std::thread;
-use std::time::Duration;
+static NTHREADS: usize = 2;
 
 fn main() {
     println!("Hello, world!");
@@ -19,9 +19,9 @@ fn main() {
     let m2 = create_random_matrix(3, 3);
     println!("This is the second random matrix {:?}", m2);
     
-    let mut _2d = winograd(&m1, &m2);
+    let mut _2d = winograd(&m1, &m2, NTHREADS);
     println!("Result matrix(winograd) is : {:?}", _2d);
 
-    _2d = standard(&m1, &m2);
+    _2d = standard(&m1, &m2, NTHREADS);
     println!("Result matrix(standard) is : {:?}", _2d);
 }
