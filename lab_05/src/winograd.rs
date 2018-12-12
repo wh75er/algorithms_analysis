@@ -30,7 +30,7 @@ pub fn winograd(m1: &Vec<Vec<i32>>, m2: &Vec<Vec<i32>>, nthreads: usize) -> Vec<
     let m2_arced = Arc::new(m2.clone()); 
     
     {
-    let c_arced = Arc::new(Mutex::new(&mut c_vec));
+    //let c_arced = Arc::new(Mutex::new(&mut c_vec));
     let rows_arced = Arc::new(Mutex::new(&mut rows_vec));
     let columns_arced = Arc::new(Mutex::new(&mut columns_vec));
 
@@ -47,7 +47,7 @@ pub fn winograd(m1: &Vec<Vec<i32>>, m2: &Vec<Vec<i32>>, nthreads: usize) -> Vec<
     for m in 0..nthreads {
         let m1_data = m1_arced.clone();
         let m2_data = m2_arced.clone();
-        let c_mutex = c_arced.clone();
+        //let c_mutex = c_arced.clone();
         let rows_mutex = rows_arced.clone();
         let columns_mutex = columns_arced.clone();
         threads.push(
@@ -57,15 +57,9 @@ pub fn winograd(m1: &Vec<Vec<i32>>, m2: &Vec<Vec<i32>>, nthreads: usize) -> Vec<
                 (*rows)[i] += m1_data[i][0] * m1_data[i][1];
                 for j in 1..d {
                     (*rows)[i] += m1_data[i][2*j] * m1_data[i][2*j+1];
-                    //println!("loop inside");
                 }
             }
 
-            //println!("d is {:?}", d);
-            //println!("rows here {:?}", *rows);
-            //println!("rows_m1_from {:?}, rows_m1_to {:?}", r_m1_from, r_m1_to);
-            //println!("columns_m2_from {:?}, columns_m2_to {:?}", c_m2_from, c_m2_to);
-        
             let mut columns = columns_mutex.lock().unwrap();
             for i in c_m2_from..c_m2_to {
                 (*columns)[i] += m2_data[0][i] * m2_data[1][i];
@@ -74,16 +68,7 @@ pub fn winograd(m1: &Vec<Vec<i32>>, m2: &Vec<Vec<i32>>, nthreads: usize) -> Vec<
                 }
             }
         
-            let mut c = c_mutex.lock().unwrap();
-            for i in r_m1_from..r_m1_to { 
-                for j in c_m2_from..c_m2_to {
-                    (*c)[i][j] = -(*rows)[i] - (*columns)[j];
-                    for k in 0..d {
-                        (*c)[i][j] += (m1_data[i][2*k] + m2_data[2*k+1][j]) *
-                                    (m1_data[i][2*k+1] + m2_data[2*k][j]);
-                    }
-                }
-            }
+            
         }));
 
         c_m2_from = c_m2_to;                          // Columns shift for 2 matrix
@@ -103,8 +88,16 @@ pub fn winograd(m1: &Vec<Vec<i32>>, m2: &Vec<Vec<i32>>, nthreads: usize) -> Vec<
     }).unwrap();
     }
 
+    for i in 0..r_m1 { 
+        for j in 0..c_m2 {
+            c_vec[i][j] = -rows_vec[i] - columns_vec[j];
+            for k in 0..d {
+                c_vec[i][j] += (m1[i][2*k] + m2[2*k+1][j]) *
+                            (m1[i][2*k+1] + m2[2*k][j]);
+            }
+        }
+    }
 
-    println!("Current reslut matrix : {:?}", c_vec);
     if c_m1%2 == 1 {
         for i in 0..r_m1 {
             for j in 0..c_m2 {

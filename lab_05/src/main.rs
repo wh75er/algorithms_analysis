@@ -8,15 +8,15 @@ use functions::*;
 use winograd::*;
 use standard::*;
 
-static NTHREADS: usize = 2;
+static NTHREADS: usize = 6;
 
 fn main() {
     println!("Hello, world!");
     
-    let m1 = create_random_matrix(2, 3);
+    let m1 = create_random_matrix(6, 6); //2, 3
     println!("This is the first random matrix {:?}", m1);
 
-    let m2 = create_random_matrix(3, 3);
+    let m2 = create_random_matrix(6, 6); //3 3
     println!("This is the second random matrix {:?}", m2);
     
     let mut _2d = winograd(&m1, &m2, NTHREADS);
