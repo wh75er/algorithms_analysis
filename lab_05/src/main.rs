@@ -8,22 +8,22 @@ use functions::*;
 use winograd::*;
 use standard::*;
 
-static NTHREADS: usize = 6;
+static NTHREADS: usize = 4;
 
 fn main() {
-    let m1 = create_random_matrix(6, 6); //2, 3
+    let m1 = create_random_matrix(6, 6);
     println!("This is the first random matrix: ");
-    print_matrix(&m1);
+    //print_matrix(&m1);
 
-    let m2 = create_random_matrix(6, 6); //3 3
+    let m2 = create_random_matrix(6, 6);
     println!("This is the second random matrix: ");
-    print_matrix(&m2);
+    //print_matrix(&m2);
     
     let mut _2d = winograd(&m1, &m2, NTHREADS);
     println!("Result matrix(winograd) is: ");
-    print_matrix(&_2d);
+    //print_matrix(&_2d);
 
     _2d = standard(&m1, &m2, NTHREADS);
     println!("Result matrix(standard) is: ");
-    print_matrix(&_2d);
+    //print_matrix(&_2d);
 }
