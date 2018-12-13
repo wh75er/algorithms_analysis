@@ -2,6 +2,9 @@
 use std::sync::{Arc, Mutex};
 use crossbeam::thread;
 
+struct Shitpointer(*mut i32);
+unsafe impl Send for Shitpointer {}
+
 pub fn winograd(m1: &Vec<Vec<i32>>, m2: &Vec<Vec<i32>>, nthreads: usize) -> Vec<Vec<i32>> {
     let r_m1 = m1.len();
     let c_m1 = m1[0].len();
@@ -20,18 +23,15 @@ pub fn winograd(m1: &Vec<Vec<i32>>, m2: &Vec<Vec<i32>>, nthreads: usize) -> Vec<
                 amount of elements");
     }
 
-    let mut c_vec = vec![vec![0; c_m2]; r_m1];
-    let mut rows_vec = vec![0; r_m1];
-    let mut columns_vec = vec![0; c_m2];
+
+    let mut c = vec![vec![0; c_m2]; r_m1];
+    let mut rows = vec![0; r_m1];
+    let mut columns = vec![0; c_m2];
 
     let d = c_m1 / 2;
 
     let m1_arced = Arc::new(m1.clone()); 
     let m2_arced = Arc::new(m2.clone()); 
-    
-    {                                                   // start mutable scope
-    let rows_arced = Arc::new(Mutex::new(&mut rows_vec));
-    let columns_arced = Arc::new(Mutex::new(&mut columns_vec));
 
     let r_m1_shift = r_m1 / nthreads;
     let mut r_m1_from = 0;
@@ -46,24 +46,22 @@ pub fn winograd(m1: &Vec<Vec<i32>>, m2: &Vec<Vec<i32>>, nthreads: usize) -> Vec<
         for m in 0..nthreads {
             let m1_data = m1_arced.clone();
             let m2_data = m2_arced.clone();
-            let rows_mutex = rows_arced.clone();
-            let columns_mutex = columns_arced.clone();
+            let mut rows_ptr = Shitpointer(rows.as_mut_ptr());
+            let mut columns_ptr = Shitpointer(columns.as_mut_ptr());
             threads.push(
-            scope.spawn(move |_| {
+            scope.spawn(move |_| unsafe { 
 
-                let mut rows = rows_mutex.lock().unwrap();
                 for i in r_m1_from..r_m1_to {
-                    (*rows)[i] += m1_data[i][0] * m1_data[i][1];
+                    *rows_ptr.0.offset(i as isize) += m1_data[i][0] * m1_data[i][1];
                     for j in 1..d {
-                        (*rows)[i] += m1_data[i][2*j] * m1_data[i][2*j+1];
+                        *rows_ptr.0.offset(i as isize) += m1_data[i][2*j] * m1_data[i][2*j+1];
                     }
                 }
     
-                let mut columns = columns_mutex.lock().unwrap();
                 for i in c_m2_from..c_m2_to {
-                    (*columns)[i] += m2_data[0][i] * m2_data[1][i];
+                    *columns_ptr.0.offset(i as isize) += m2_data[0][i] * m2_data[1][i];
                     for j in 1..d {
-                        (*columns)[i] += m2_data[2*j][i] * m2_data[2*j+1][i];
+                        *columns_ptr.0.offset(i as isize) += m2_data[2*j][i] * m2_data[2*j+1][i];
                     }
                 }
             
@@ -85,13 +83,12 @@ pub fn winograd(m1: &Vec<Vec<i32>>, m2: &Vec<Vec<i32>>, nthreads: usize) -> Vec<
             thread.join().unwrap()
         }
     }).unwrap();
-    }                                                   // End mutable scope
 
     for i in 0..r_m1 { 
         for j in 0..c_m2 {
-            c_vec[i][j] = -rows_vec[i] - columns_vec[j];
+            c[i][j] = -rows[i] - columns[j];
             for k in 0..d {
-                c_vec[i][j] += (m1[i][2*k] + m2[2*k+1][j]) *
+                c[i][j] += (m1[i][2*k] + m2[2*k+1][j]) *
                             (m1[i][2*k+1] + m2[2*k][j]);
             }
         }
@@ -100,10 +97,10 @@ pub fn winograd(m1: &Vec<Vec<i32>>, m2: &Vec<Vec<i32>>, nthreads: usize) -> Vec<
     if c_m1%2 == 1 {
         for i in 0..r_m1 {
             for j in 0..c_m2 {
-                c_vec[i][j] += m1[i][c_m1-1] * m2[c_m1-1][j];
+                c[i][j] += m1[i][c_m1-1] * m2[c_m1-1][j];
             }
         }
     }
 
-    c_vec
+    c
 }
