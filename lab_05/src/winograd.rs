@@ -1,4 +1,4 @@
-use std::sync::{Arc, Mutex};
+use std::sync::Arc;
 use crossbeam::thread;
 
 struct Shitpointer(*mut i32);
