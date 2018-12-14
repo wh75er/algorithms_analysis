@@ -15,7 +15,7 @@ fn main() {
     if args.len() < 3 || args.len() > 4 {
         panic!("\nExpected 2 args:\n\tNTHREADS\n\tSize of square matrix\n");
     }
-    let NTHREADS : usize = args[1].parse().unwrap();
+    let nthreads : usize = args[1].parse().unwrap();
     let size : i32 = args[2].parse().unwrap();
 
     let m1 = create_random_matrix(size, size);
@@ -23,12 +23,12 @@ fn main() {
     let m2 = create_random_matrix(size, size);
     
     let mut instant = Instant::now();
-    let mut _2d = winograd(&m1, &m2, NTHREADS);
+    let mut _2d = winograd(&m1, &m2, nthreads);
     let mut time = instant.elapsed();
-    println!("Time of winograd {:?} with {} threads", time, NTHREADS);
+    println!("Time of winograd {:?} with {} threads", time, nthreads);
 
     instant = Instant::now();
-    _2d = standard(&m1, &m2, NTHREADS);
+    _2d = standard(&m1, &m2, nthreads);
     time = instant.elapsed();
-    println!("Time of standard {:?} with {} threads", time, NTHREADS);
+    println!("Time of standard {:?} with {} threads", time, nthreads);
 }
