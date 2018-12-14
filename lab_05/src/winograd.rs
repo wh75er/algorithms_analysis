@@ -3,6 +3,8 @@ use crossbeam::thread;
 
 struct Shitpointer(*mut i32);
 unsafe impl Send for Shitpointer {}
+struct ShitpointerDouble(*mut Vec<i32>);
+unsafe impl Send for ShitpointerDouble {}
 
 pub fn winograd(m1: &Vec<Vec<i32>>, m2: &Vec<Vec<i32>>, nthreads: usize) -> Vec<Vec<i32>> {
     let r_m1 = m1.len();
@@ -81,23 +83,55 @@ pub fn winograd(m1: &Vec<Vec<i32>>, m2: &Vec<Vec<i32>>, nthreads: usize) -> Vec<
         }
     }).unwrap();
 
-    for i in 0..r_m1 { 
-        for j in 0..c_m2 {
-            c[i][j] = -rows[i] - columns[j];
-            for k in 0..d {
-                c[i][j] += (m1[i][2*k] + m2[2*k+1][j]) *
-                            (m1[i][2*k+1] + m2[2*k][j]);
+
+    let r_m1_shift = r_m1 / nthreads;
+    let mut r_m1_from = 0;
+    let mut r_m1_to = r_m1_shift;
+
+    thread::scope(|scope| {
+        let mut threads_second = vec![];
+
+        for m in 0..nthreads {
+            let m1_data = m1_arced.clone();
+            let m2_data = m2_arced.clone();
+            let mut rows_ptr = Shitpointer(rows.as_mut_ptr());
+            let mut columns_ptr = Shitpointer(columns.as_mut_ptr());
+            let mut c_ptr = ShitpointerDouble(c.as_mut_ptr());
+            threads_second.push(
+            scope.spawn(move |_| unsafe { 
+
+                for i in r_m1_from..r_m1_to { 
+                    for j in 0..c_m2 {
+                        (*c_ptr.0.offset(i as isize))[j] = -(*rows_ptr.0.offset(i as isize)) - (*columns_ptr.0.offset(j as isize));
+                        for k in 0..d {
+                            (*c_ptr.0.offset(i as isize))[j] += (m1_data[i][2*k] + m2_data[2*k+1][j]) *
+                                (m1_data[i][2*k+1] + m2_data[2*k][j]);
+                        }
+                    }
+                }
+    
+                if c_m1%2 == 1 {
+                    for i in r_m1_from..r_m1_to {
+                        for j in 0..c_m2 {
+                            (*c_ptr.0.offset(i as isize))[j] += m1_data[i][c_m1-1] * m2_data[c_m1-1][j];
+                        }
+                    }
+                }
+            
+            }));
+    
+            r_m1_from = r_m1_to;                          // Rows shift for 1 matrix
+            r_m1_to += r_m1_shift;
+    
+            if m+2 == nthreads {                          // Check if this is the last iteration;
+                r_m1_to = r_m1;
             }
         }
-    }
 
-    if c_m1%2 == 1 {
-        for i in 0..r_m1 {
-            for j in 0..c_m2 {
-                c[i][j] += m1[i][c_m1-1] * m2[c_m1-1][j];
-            }
+        for thread in threads_second {
+            thread.join().unwrap()
         }
-    }
-
+    }).unwrap();
+    
     c
 }
