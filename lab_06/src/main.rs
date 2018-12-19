@@ -7,9 +7,7 @@ mod functions;
 use functions::*;
 use pipe::*;
 
-//use std::collections::VecDeque;
-
-//use std::time::Instant;
+use std::fs;
 use std::env;
 
 fn main() {
@@ -23,4 +21,6 @@ fn main() {
     
     let tuple = pipe(&mut queue);
     println!("result is {:?} \nlog:\n{}", tuple.0, tuple.1);
+
+    fs::write("logs", tuple.1).expect("Unable to write file");
 }
