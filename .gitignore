@@ -294,6 +294,7 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
+/lab_0?/src/logs
 /lab_0?/target
 **/*.rs.bk
 
