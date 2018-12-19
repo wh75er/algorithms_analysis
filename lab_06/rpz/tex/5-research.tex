@@ -1,60 +1,76 @@
 \chapter{ Экспериментальный раздел}
-\section{ Результаты работы алгоритмов}
-Для исследования скоростных характеристик при работе с CPU потоками был использован компьютер на базе процесса Intel® Core™ i5-8250U содержащий 8 гигабайт оперативной памяти и 8 логических ядер. Были проведены запуски алгоритмов умножения матриц классического и Винограда на CPU на 4, 16, 32 потоках. Результаты работы алгоритмов сведены в таблицу \ref{table:results} и \ref{table:results2}.
+\section{ Результаты работы конвейера}
+Для запуска конвейера с CPU потоками был использован компьютер на базе процесса Intel® Core™ i5-8250U содержащий 8 гигабайт оперативной памяти и 8 логических ядер. Полученные результаты выводились в консоль, дополнительно, логи, полученные в процессе запуска, записываются в файл logs.
 
-\begin{table}[]
-\caption{Таблица для сравнения результатов работы времени алгоритмов с разным количеством выделенны потоков}
-\label{table:results}
-\begin{tabular}{clll}
-\multicolumn{1}{l}{\textbf{Размер матрицы}} & \textbf{Классический} & \textbf{Виноград} & \textbf{Число потоков} \\
-101x101                                     & 151.142527ms          & 137.215696ms      & 4                      \\
-201x201                                     & 476.1398ms            & 553.194614ms      & 4                      \\
-301x301                                     & 1.613423687s          & 1.323996871s      & 4                      \\
-401x401                                     & 3.82543126s           & 3.141865484s      & 4                      \\
-501x501                                     & 7.731825563s          & 6.450435946s      & 4                      \\
-601x601                                     & 13.20099819s          & 10.865136264s     & 4                      \\
-701x701                                     & 21.260666811s         & 17.569824814s     & 4                      \\
-801x801                                     & 31.533601272s         & 26.127903699s     & 4                      \\
-901x901                                     & 45.950664272s         & 38.655252132s     & 4                      \\
-1001x1001                                   & 63.700837037s         & 53.171539745s     & 4                      \\
-101x101                                     & 143.849607ms           &  127.426561ms      & 8                     \\
-201x201                                     & 353.902669ms         & 294.258255ms    & 8                     \\
-301x301                                     & 1.246530836s       & 1.024640638s    & 8                     \\
-401x401                                     & 2.791005888s      & 2.275496167s    & 8                     \\
-501x501                                     & 5.734052229s         & 4.75387707s    & 8                     \\
-601x601                                     & 9.455089118s       & 7.751906429s      & 8                     \\
-701x701                                     & 15.470345981s      & 12.716265014s   & 8                     \\
-801x801                                     & 22.691699813s      & 18.534729148s    & 8                     \\
-901x901                                     & 33.606114751s      & 27.193451908s    & 8                     \\
-1001x1001                                   & 45.484960201s       & 39.264442231s   & 8                     \\
-101x101                                     & 52.157384ms           & 46.368608ms       & 16                     \\
-201x201                                     & 410.562032ms          & 297.723095ms      & 16                     \\
-301x301                                     & 1.278776659s          & 1.142890963s      & 16                     \\
-401x401                                     & 2.826687704s          & 2.318481281s      & 16                     \\
-501x501                                     & 5.777131004s          & 4.691715602s      & 16                     \\
-601x601                                     & 10.024139145s         & 8.06846516s       & 16                     \\
-701x701                                     & 16.125436583s         & 13.383977353s     & 16                     \\
-801x801                                     & 21.853166134s         & 18.418213377s     & 16                     \\
-901x901                                     & 35.956791094s         & 27.613591013s     & 16                     \\
-1001x1001                                   & 44.958681994s         & 37.515105402s     & 16                     \\
-\end{tabular}
-\end{table}
+\subsection{ Пример работы конвейра}
 
-\begin{table}[]
-\caption{Таблица для сравнения результатов работы времени алгоритмов с разным количеством выделенны потоков(продолжение \ref{table:results})}
-\label{table:results2}
-\begin{tabular}{clll}
-\multicolumn{1}{l}{\textbf{Размер матрицы}} & \textbf{Классический} & \textbf{Виноград} & \textbf{Число потоков} \\
-1001x1001                                   & 44.958681994s         & 37.515105402s     & 16                     \\
-101x101                                     & 51.562786ms           & 41.880374ms       & 32                     \\
-201x201                                     & 360.893267ms          & 289.060785ms      & 32                     \\
-301x301                                     & 1.294462372s          & 1.067248293s      & 32                     \\
-401x401                                     & 3.073137801s          & 2.494931842s      & 32                     \\
-501x501                                     & 6.059291873s          & 4.935466538s      & 32                     \\
-601x601                                     & 10.413834336s         & 8.499417437s      & 32                     \\
-701x701                                     & 16.617471914s         & 13.617380263s     & 32                     \\
-801x801                                     & 24.239836469s         & 18.150191199s     & 32                     \\
-901x901                                     & 33.639885707s         & 28.667985771s     & 32                     \\
-1001x1001                                   & 46.753558056s         & 39.747203907s     & 32                    
-\end{tabular}
-\end{table}
+Пример работы конвейра представлен в листинге \ref{list:out}.
+
+Пример записанных данных в файле logs представлен в листинге \ref{list:logs}.
+
+\begin{lstlisting}[caption={ Пример работы конвейера}, label={list:out}]
+Thread a is finished
+Thread b is finished
+Thread c is finished
+result is [240, 12, 10080, 80640, 10080, 10080, 240, 12]
+log:
+3.364µs:	Object 1 was loaded to level B queue
+2.273073ms:	Object 2 was loaded to level B queue
+4.503505ms:	Object 3 was loaded to level B queue
+6.608858ms:	Object 4 was loaded to level B queue
+8.795699ms:	Object 5 was loaded to level B queue
+10.579648ms:	Object 1 was loaded to level C queue
+10.891983ms:	Object 6 was loaded to level B queue
+13.24746ms:	Object 2 was loaded to level C queue
+13.425347ms:	Object 7 was loaded to level B queue
+15.332588ms:	Object 2 was loaded to result
+15.364081ms:	Object 3 was loaded to level C queue
+15.493487ms:	Object 8 was loaded to level B queue
+17.434922ms:	Object 4 was loaded to level C queue
+17.468115ms:	Object 3 was loaded to result
+17.555404ms:	Object 9 was loaded to level B queue
+19.494854ms:	Object 4 was loaded to result
+19.503813ms:	Object 5 was loaded to level C queue
+19.618857ms:	Object 10 was loaded to level B queue
+21.611487ms:	Object 6 was loaded to level C queue
+23.629452ms:	Object 6 was loaded to result
+23.678581ms:	Object 7 was loaded to level C queue
+23.684206ms:	Object 8 was loaded to level C queue
+23.686141ms:	Object 9 was loaded to level C queue
+23.687806ms:	Object 10 was loaded to level C queue
+25.696519ms:	Object 7 was loaded to result
+27.762144ms:	Object 8 was loaded to result
+29.829729ms:	Object 9 was loaded to result
+32.072517ms:	Object 10 was loaded to result
+\end{lstlisting}
+
+\begin{lstlisting}[caption={ Пример файла logs}, label={list:logs}]
+3.364µs:        Object 1 was loaded to level B queue
+2.273073ms:     Object 2 was loaded to level B queue
+4.503505ms:     Object 3 was loaded to level B queue
+6.608858ms:     Object 4 was loaded to level B queue
+8.795699ms:     Object 5 was loaded to level B queue
+10.579648ms:    Object 1 was loaded to level C queue
+10.891983ms:    Object 6 was loaded to level B queue
+13.24746ms:     Object 2 was loaded to level C queue
+13.425347ms:    Object 7 was loaded to level B queue
+15.332588ms:    Object 2 was loaded to result
+15.364081ms:    Object 3 was loaded to level C queue
+15.493487ms:    Object 8 was loaded to level B queue
+17.434922ms:    Object 4 was loaded to level C queue
+17.468115ms:    Object 3 was loaded to result
+17.555404ms:    Object 9 was loaded to level B queue
+19.494854ms:    Object 4 was loaded to result
+19.503813ms:    Object 5 was loaded to level C queue
+19.618857ms:    Object 10 was loaded to level B queue
+21.611487ms:    Object 6 was loaded to level C queue
+23.629452ms:    Object 6 was loaded to result
+23.678581ms:    Object 7 was loaded to level C queue
+23.684206ms:    Object 8 was loaded to level C queue
+23.686141ms:    Object 9 was loaded to level C queue
+23.687806ms:    Object 10 was loaded to level C queue
+25.696519ms:    Object 7 was loaded to result
+27.762144ms:    Object 8 was loaded to result
+29.829729ms:    Object 9 was loaded to result
+32.072517ms:    Object 10 was loaded to result
+\end{lstlisting}
