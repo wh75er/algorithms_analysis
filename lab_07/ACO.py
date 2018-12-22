@@ -3,11 +3,9 @@ import numpy as np
 import random as rnd
 np.seterr(divide='ignore', invalid='ignore')
 
-#const
+# default
 m = 5 #количество городов
 t_max = 100
-dist_min = 1 
-dist_max = 10 
 p = 0.5 #испарение
 
 
