@@ -1,66 +1,65 @@
 \chapter{ Технологический раздел}
 \section{ Требования к програмному обеспечению}
-    Данная программа разрабатывалась на языке python с использованием интерпретатора python 3.7.1. Для работы с массивами данных использовалась библиотека NumPy.
+    Данная программа разрабатывалась на языке python с использованием интерпретатора python 3.7.1.
 
 \section{ Листинг кода}
 
-Листинг алгоритма муравья представлен в  \ref{list:levelc}
+Листинг алгоритма Бойера-Мура представлен в  \ref{list:bmcode}
 
-\begin{lstlisting}[language=python, caption={ Реализация уровня C конвейера},
-                    label={list:levelc}]
+Листинг алгоритма КМП представлен в \ref{list:kmpcode}
 
-def aco(m, e, d, tmax, alpha, beta, p, q):
-    nue = 1 / d
-    teta = np.random.sample((m, m))
-    Tmin = None
-    Lmin = None
+Листинг алгоритма создания таблицы префиксов для алгоритма КМП представлен в \ref{list:lspcode}
 
-    t = 0
+\begin{lstlisting}[language=python, caption={ Листинг реализации алгоритма Бойера-Мура},
+                    label={list:bmcode}]
+def boyermoorematch(src, pattern):
+    alphabet = set(src)
+    last = lastoccurrence(pattern, alphabet)
+    m = len(pattern)
+    n = len(src)
+    i = m - 1  # text index
+    j = m - 1  # pattern index
+    while i < n:
+        if src[i] == pattern[j]:
+            if j == 0:
+                return i
+            else:
+                i -= 1
+                j -= 1
+        else:
+            l = last(src[i])
+            i = i + m - min(j, 1+l)
+            j = m - 1 
 
-    while t < tmax:
-        tetak = np.zeros((m, m))
+    return -1
+\end{lstlisting}
 
-        for k in range(m):
-            Tk = [k]
-            Lk = 0
-            i = k
+\begin{lstlisting}[language=python, caption={ Листинг реализации алгоритма КМП},
+                    label={list:kmpcode}]
+def kmpmatch(src, pattern):
+    lsp = findlsp(pattern)
+    j = 0
+    for i in range(len(src)):
+        while j>0 and src[i] != pattern[j]:
+            j = lsp[j-1]
+        if src[i] == pattern[j]:
+            j += 1
+            if j == len(pattern):
+                return i - (j - 1)
 
-            while len(Tk) != m:
-                J = [r for r in range(m)]
-                for c in Tk:
-                    J.remove(c)
+    return -1
+\end{lstlisting}
+\begin{lstlisting}[language=python, caption={ Листинг реализации создания таблица префиксов},
+                    label={list:lspcode}]
+def findlsp(pattern):
+    lsp = [0]*len(pattern)
+    for i in range(1, len(pattern)):
+        j  = lsp[i-1]
+        while j > 0 and pattern[i] != pattern[j]:
+            j = lsp[j-1]
+        if pattern[i] == pattern[j]:
+            j += 1
+        lsp[i] = j
 
-                P = [0 for alpha in J]
-
-                for j in J:
-                    if d[i][j] != 0:
-                        buf = sum((teta[i][l] ** alpha) * (nue[i][l] ** beta) for l in J)
-                        P[J.index(j)] = (teta[i][j] ** alpha) * (nue[i][j] ** beta) / buf
-                    else:
-                        P[J.index(j)] = 0
-
-                Pmax = max(P)
-                if Pmax == 0:
-                    break
-
-                index = P.index(Pmax)
-                Tk.append(J[index])
-                Lk += d[i][J[index]]
-                i = J.pop(index)
-
-            if Lmin is None or (Lk + d[Tk[0]][Tk[-1]]) < L_min:
-                Lmin = Lk + d[Tk[0]][Tk[-1]]
-                Tmin = Tk
-
-            for g in range(len(Tk) - 1):
-                alpha= Tk[g]
-                betha = Tk[g + 1]
-                tetak[alpha][betha] += q / Lk
-
-        tetae = (e * q / Lmin) if Lmin else 0
-        teta = (1 - p) * teta + tetak + tetae
-        t += 1
-
-    return Lmin
-
+    return lsp
 \end{lstlisting}
