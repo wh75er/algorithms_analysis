@@ -299,3 +299,5 @@ dkms.conf
 **/*.rs.bk
 
 **/*.pdf
+
+/*/__pycache__
