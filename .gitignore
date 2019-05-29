@@ -241,6 +241,7 @@ TSWLatexianTemp*
 
 # standalone packages
 *.sta
+<<<<<<< HEAD
 
 
 
@@ -293,3 +294,5 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+=======
+>>>>>>> lab_01
