@@ -1,0 +1,8 @@
+[package]
+name = "lab_05"
+version = "0.1.0"
+authors = ["wh75er"]
+
+[dependencies]
+rand = "0.6.1"
+crossbeam = "0.5"

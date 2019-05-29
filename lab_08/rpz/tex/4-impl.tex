@@ -1,0 +1,65 @@
+\chapter{ Технологический раздел}
+\section{ Требования к програмному обеспечению}
+    Данная программа разрабатывалась на языке python с использованием интерпретатора python 3.7.1.
+
+\section{ Листинг кода}
+
+Листинг алгоритма Бойера-Мура представлен в  \ref{list:bmcode}
+
+Листинг алгоритма КМП представлен в \ref{list:kmpcode}
+
+Листинг алгоритма создания таблицы префиксов для алгоритма КМП представлен в \ref{list:lspcode}
+
+\begin{lstlisting}[language=python, caption={ Листинг реализации алгоритма Бойера-Мура},
+                    label={list:bmcode}]
+def boyermoorematch(src, pattern):
+    alphabet = set(src)
+    last = lastoccurrence(pattern, alphabet)
+    m = len(pattern)
+    n = len(src)
+    i = m - 1  # text index
+    j = m - 1  # pattern index
+    while i < n:
+        if src[i] == pattern[j]:
+            if j == 0:
+                return i
+            else:
+                i -= 1
+                j -= 1
+        else:
+            l = last(src[i])
+            i = i + m - min(j, 1+l)
+            j = m - 1 
+
+    return -1
+\end{lstlisting}
+
+\begin{lstlisting}[language=python, caption={ Листинг реализации алгоритма КМП},
+                    label={list:kmpcode}]
+def kmpmatch(src, pattern):
+    lsp = findlsp(pattern)
+    j = 0
+    for i in range(len(src)):
+        while j>0 and src[i] != pattern[j]:
+            j = lsp[j-1]
+        if src[i] == pattern[j]:
+            j += 1
+            if j == len(pattern):
+                return i - (j - 1)
+
+    return -1
+\end{lstlisting}
+\begin{lstlisting}[language=python, caption={ Листинг реализации создания таблица префиксов},
+                    label={list:lspcode}]
+def findlsp(pattern):
+    lsp = [0]*len(pattern)
+    for i in range(1, len(pattern)):
+        j  = lsp[i-1]
+        while j > 0 and pattern[i] != pattern[j]:
+            j = lsp[j-1]
+        if pattern[i] == pattern[j]:
+            j += 1
+        lsp[i] = j
+
+    return lsp
+\end{lstlisting}

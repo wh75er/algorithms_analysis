@@ -1,0 +1,84 @@
+\chapter{ Технологический раздел}
+\label{cha:impl}
+
+Данный раздел содержит информацию о реализации ПО и листингах програм.
+
+\section{ Требования к програмному ПО}
+Программы реализованы в двух вариациях. Первая -- каждая программа реализована поотдельности и обладает своим собственным функционалом -- возможность определять размеры массива и получать вывод в поток вывода. Вторая -- программа, содержащая в себе функции с реализованными алгоритмами, в которой производится тестирование времени алгоритмов и вывод отправляется в поток вывода информации.
+
+\section{ Средства реализации }
+Данные реализации разрабатывались на языке C, использовался компилятор gcc-8.2.1.
+Замер времени производится с помощью библиотеки \textit{time.h}. Данная библиотека позволяет производить замер тиков, откуда можно получать время в секундах. 
+Программы компилировались с выключенной оптимизацией с флагом -O0
+
+\section{ Листинг}
+Алгоритм сортировки пузырьком представлен в листинге \ref{list:bubble}
+
+\begin{lstlisting}[style=CStyle, caption={bubble sort},
+                    label={list:bubble}]
+void bubble(int* a, int size)
+{
+    for(int i = 0; i < size; i++)
+        for(int j = 0; j < size-j-i; j++)
+            if(a[j] > a[j+1])
+                swap(&a[j], &a[j+1]);
+}
+\end{lstlisting}
+
+Алгоритм сортировки слиянием представлен в листинге \ref{list:merge}
+
+\begin{lstlisting}[style=CStyle, caption={merge sort},
+                    label={list:merge}]
+void merge(int* a, int* l, int leftCount, int* r, int rightCount)
+{
+    int i = 0, 
+        j = 0, 
+        k = 0;
+
+    while(i<leftCount && j< rightCount) {
+        if(l[i]  < r[j]) a[k++] = l[i++];
+        else a[k++] = r[j++];
+    }
+    while(i < leftCount) a[k++] = l[i++];
+    while(j < rightCount) a[k++] = r[j++];
+}
+
+void mergeSort(int* a, int n)
+{
+    int mid, i, *l, *r;
+    if(n < 2) return;
+
+    mid = n/2;
+
+    l = (int*)malloc(mid*sizeof(int)); 
+    r = (int*)malloc((n - mid)*sizeof(int)); 
+	
+    for(i = 0; i<mid; i++) l[i] = a[i]; // creating left subarray
+    for(i = mid; i<n; i++) r[i-mid] = a[i]; // creating right subarray
+
+    mergeSort(l, mid);
+    mergeSort(r, n-mid);
+    merge(a, l, mid, r, n-mid);
+    free(l);
+    free(r);
+}
+\end{lstlisting}
+
+Листинг алгоритма сортировки простыми вставками представлен в \ref{list:insertions}
+
+\begin{lstlisting}[style=CStyle, caption={Insertions sort},
+                    label={list:insertions}]
+void insert(int* a, int size)
+{
+    int j, tmp;
+    
+    for(int i = 1; i < size; i++) {
+        tmp = a[i];
+        for (j = i - 1; j >= 0 && a[j] > tmp; j--)
+            a[j + 1] = a[j];
+        a[j + 1] = tmp;
+    }
+}
+\end{lstlisting}
+
+

@@ -1,0 +1,14 @@
+\chapter{ Экспериментальный раздел}
+
+В данном разделе будут произведены замеры времени работы алгоритмов Бойера-Мура и КМП. Для исследования скоростных характеристик был использован компьютер на базе процессора Intel Core Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz, содержащий 8 Гб оперативной памяти.
+
+\section{ Тестирование алгоритма}
+
+\begin{table}[]
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lcccc}
+\multicolumn{1}{c}{\textbf{Строка}} & \textbf{Подстрока} & \textbf{\begin{tabular}[c]{@{}c@{}}Бойера-Мур, \\ мсек\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}КМП, \\ мсек\end{tabular}} & \textbf{Результат} \\
+\begin{tabular}[c]{@{}l@{}}"the quick brow fox \\ jumps over the lazy \\ dog"\end{tabular} & "dog" & 8.678436279296875e-05 & 2.7894973754882812e-05 & 40
+\end{tabular}%
+}
+\end{table}

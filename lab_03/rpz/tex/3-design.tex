@@ -1,0 +1,60 @@
+\chapter{ Констукторский раздел}
+\label{cha:design}
+\section{ Разработка алгоритмов}
+
+\subsection{ Алгоритм сортировки пузырька}
+В листенге \ref{list:bubblePseudo} представлен алгоритм сортировки пузырьком.
+
+\begin{lstlisting}[caption={Pseudocode of bubble sort}, label={list:bubblePseudo}]
+цикл для j от min до max
+    цикл для i от min до max-1
+        если A[i] больше чем A[i+1] то:
+            обменять местами A[i] и A[i+1]
+\end{lstlisting}	
+
+
+\subsection{ Алгоритм сортировки слиянием}
+В листинге \ref{list:mergePseudo} представлен алгоритм сортировки слиянием.
+
+\begin{lstlisting}[caption={Pseudocode of merge sort}, label={list:mergePseudo}]
+функция mergesort( массив А )
+    Если n=1 то:
+        вернуть А
+
+    l1 = A[0] .. A[n/2]
+    l2 = A[n/2+1] .. A[n]
+
+    l1 = mergesort( l1 )
+    l2 = mergesort( l2 )
+
+    вернуть merge( l1, l2 )
+конец функции
+
+функция merge( массив A, массив B )
+    пока в A и в B есть элементы:
+        если A[0] > B[0]:
+            добавить B[0] в конец C
+            удалить B[0] из B
+        иначе
+            добавить A[0] в конец C
+            удалить A[0] из A
+    пока в A есть элементы:
+        добавить A[0] в конец C
+        удалить A[0] из A
+    пока в B есть элементы:
+        добавить B[0] в конец C
+        удалить B[0] из B
+    вернуть C
+конец функции
+\end{lstlisting}	
+
+\subsection{ Алгоритм сортировки простыми вставками}
+Листинг алгоритма сортировки простыми вставками представлен в \ref{list:insertionsPseudo}
+
+\begin{lstlisting}[caption={Pseudocode of insertions algorithm}, label={list:insertionsPseudo}]
+цикл для i от 0 до n - 1
+    j = i - 1
+    пока j >= 0 и a[j] > a[j + 1] 
+        поменять местами a[j] и a[j + 1]
+        j--
+\end{lstlisting}

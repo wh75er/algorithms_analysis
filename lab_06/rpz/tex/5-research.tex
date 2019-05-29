@@ -1,0 +1,76 @@
+\chapter{ Экспериментальный раздел}
+\section{ Результаты работы конвейера}
+Для запуска конвейера с CPU потоками был использован компьютер на базе процесса Intel® Core™ i5-8250U содержащий 8 гигабайт оперативной памяти и 8 логических ядер. Полученные результаты выводились в консоль, дополнительно, логи, полученные в процессе запуска, записываются в файл logs.
+
+\subsection{ Пример работы конвейра}
+
+Пример работы конвейра представлен в листинге \ref{list:out}.
+
+Пример записанных данных в файле logs представлен в листинге \ref{list:logs}.
+
+\begin{lstlisting}[caption={ Пример работы конвейера}, label={list:out}]
+Thread a is finished
+Thread b is finished
+Thread c is finished
+result is [240, 12, 10080, 80640, 10080, 10080, 240, 12]
+log:
+3.364µs:	Object 1 was loaded to level B queue
+2.273073ms:	Object 2 was loaded to level B queue
+4.503505ms:	Object 3 was loaded to level B queue
+6.608858ms:	Object 4 was loaded to level B queue
+8.795699ms:	Object 5 was loaded to level B queue
+10.579648ms:	Object 1 was loaded to level C queue
+10.891983ms:	Object 6 was loaded to level B queue
+13.24746ms:	Object 2 was loaded to level C queue
+13.425347ms:	Object 7 was loaded to level B queue
+15.332588ms:	Object 2 was loaded to result
+15.364081ms:	Object 3 was loaded to level C queue
+15.493487ms:	Object 8 was loaded to level B queue
+17.434922ms:	Object 4 was loaded to level C queue
+17.468115ms:	Object 3 was loaded to result
+17.555404ms:	Object 9 was loaded to level B queue
+19.494854ms:	Object 4 was loaded to result
+19.503813ms:	Object 5 was loaded to level C queue
+19.618857ms:	Object 10 was loaded to level B queue
+21.611487ms:	Object 6 was loaded to level C queue
+23.629452ms:	Object 6 was loaded to result
+23.678581ms:	Object 7 was loaded to level C queue
+23.684206ms:	Object 8 was loaded to level C queue
+23.686141ms:	Object 9 was loaded to level C queue
+23.687806ms:	Object 10 was loaded to level C queue
+25.696519ms:	Object 7 was loaded to result
+27.762144ms:	Object 8 was loaded to result
+29.829729ms:	Object 9 was loaded to result
+32.072517ms:	Object 10 was loaded to result
+\end{lstlisting}
+
+\begin{lstlisting}[caption={ Пример файла logs}, label={list:logs}]
+3.364µs:        Object 1 was loaded to level B queue
+2.273073ms:     Object 2 was loaded to level B queue
+4.503505ms:     Object 3 was loaded to level B queue
+6.608858ms:     Object 4 was loaded to level B queue
+8.795699ms:     Object 5 was loaded to level B queue
+10.579648ms:    Object 1 was loaded to level C queue
+10.891983ms:    Object 6 was loaded to level B queue
+13.24746ms:     Object 2 was loaded to level C queue
+13.425347ms:    Object 7 was loaded to level B queue
+15.332588ms:    Object 2 was loaded to result
+15.364081ms:    Object 3 was loaded to level C queue
+15.493487ms:    Object 8 was loaded to level B queue
+17.434922ms:    Object 4 was loaded to level C queue
+17.468115ms:    Object 3 was loaded to result
+17.555404ms:    Object 9 was loaded to level B queue
+19.494854ms:    Object 4 was loaded to result
+19.503813ms:    Object 5 was loaded to level C queue
+19.618857ms:    Object 10 was loaded to level B queue
+21.611487ms:    Object 6 was loaded to level C queue
+23.629452ms:    Object 6 was loaded to result
+23.678581ms:    Object 7 was loaded to level C queue
+23.684206ms:    Object 8 was loaded to level C queue
+23.686141ms:    Object 9 was loaded to level C queue
+23.687806ms:    Object 10 was loaded to level C queue
+25.696519ms:    Object 7 was loaded to result
+27.762144ms:    Object 8 was loaded to result
+29.829729ms:    Object 9 was loaded to result
+32.072517ms:    Object 10 was loaded to result
+\end{lstlisting}
